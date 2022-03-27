@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
@@ -13,9 +13,16 @@ export const Login = () => {
         return email.length * 1000;
     },[email.length]);
 
+    // useCallback armazena essa função em memória
+    const handleEntrar = useCallback(()=>{
+        console.log(email);
+        console.log(password)
+
+    },[email, password]);
+
     //useEffect executa o bloco apenas quando vc inicializa o componente
     //ideal para chamada de API
-    useEffect(() =>{
+ /*   useEffect(() =>{
     },[]);
 
     useEffect(() =>{
@@ -27,11 +34,13 @@ export const Login = () => {
     useEffect(() =>{
         console.log(password);
     },[password]);
+*/
+    // const handleEntrar = () => {
+    //     console.log(email);
+    //     console.log(password);
+    // }
 
-    const handleEntrar = () => {
-        console.log(email);
-        console.log(password);
-    }
+
 
     return (
         <div>
