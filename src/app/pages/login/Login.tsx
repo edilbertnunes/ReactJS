@@ -1,69 +1,66 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUsuarioLogado } from "../../shared/hooks";
 
+import { ButtonLogin } from "./ButtonLogin";
 import { InputLogin } from "./components/InputLogin";
 
 export const Login = () => {
+  // armazena a ref. do input
+  const inputPasswordRef = useRef<HTMLInputElement>(null);
 
-    // armazena a ref. do input
-    const inputPasswordRef = useRef<HTMLInputElement>(null);
+  const {nomeDoUsuario} = useUsuarioLogado();
 
-    // o useState serve para que os valores dos componentes sejam atualizados
-    // componente inicia com vazio
-    const [email,setEmail] = useState('');
-    const [password,setPassword] = useState('');
+  // o useState serve para que os valores dos componentes sejam atualizados
+  // componente inicia com vazio
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    // permite armazenar na memória cálculos pesados
-    const emailLength = useMemo(() => {
-        console.log('Executou')
-        return email.length * 1000;
-    },[email.length]);
+  // permite armazenar na memória cálculos pesados
+  const emailLength = useMemo(() => {
+    console.log("Executou");
+    return email.length * 1000;
+  }, [email.length]);
 
-    // useCallback armazena essa função em memória
-    const handleEntrar = useCallback(()=>{
-        console.log(email);
-        console.log(password)
+  // useCallback armazena essa função em memória
+  const handleEntrar = useCallback(() => {
+    console.log(email);
+    console.log(password);
 
-        // if (inputPasswordRef.current !== null) {
-        //     inputPasswordRef.current.focus()
-        // }
-    },[email, password]);
+    // if (inputPasswordRef.current !== null) {
+    //     inputPasswordRef.current.focus()
+    // }
+  }, [email, password]);
 
-    return (
-        <div>
-            <form>
-                <p>Quantidade de caracteres no email {emailLength}</p>
-                
-                <InputLogin 
-                label="Email"
-                value={email}
-                onChange={newValue=>setEmail(newValue)}
-                onPressEnter={()=> inputPasswordRef.current?.focus()}
-                />
+  return (
+    <div>
+      <form>
+        <p>Quantidade de caracteres no email {emailLength}</p>
+        <p>{nomeDoUsuario}</p>
 
-                <InputLogin 
-                label="Senha"
-                type="password" 
-                value={password} 
-                ref={inputPasswordRef}
-                onChange={newValue =>setPassword(newValue)}
-                />
+        <InputLogin
+          label="Email"
+          value={email}
+          onChange={(newValue) => setEmail(newValue)}
+          onPressEnter={() => inputPasswordRef.current?.focus()}
+        />
 
-                {/* <label>
-                    <span>Senha</span>
-                    <input type="password" 
-                    value={password} 
-                    ref={inputPasswordRef}
-                    onChange={e=>setPassword(e.target.value)}/>
-                </label> */}
-                <button type="button" /* tipo button para enviar o reload da pagina */ onClick={handleEntrar} >Entrar</button >
-            </form>
+        <InputLogin
+          label="Senha"
+          type="password"
+          value={password}
+          ref={inputPasswordRef}
+          onChange={(newValue) => setPassword(newValue)}
+        />
 
-            
-        </div>
-    );
+        <ButtonLogin type="button" onClick={handleEntrar}>
+          Entrar
+        </ButtonLogin>
 
-
-    
-}
-
+        <ButtonLogin type="button" onClick={handleEntrar}>
+          Cadastrar
+        </ButtonLogin>
+      </form>
+    </div>
+  );
+};
