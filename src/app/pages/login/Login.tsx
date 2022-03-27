@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { InputLogin } from "./components/InputLogin";
+
 export const Login = () => {
 
     // armazena a ref. do input
@@ -27,49 +29,33 @@ export const Login = () => {
         // }
     },[email, password]);
 
-
-
-    //useEffect executa o bloco apenas quando vc inicializa o componente
-    //ideal para chamada de API
- /*   useEffect(() =>{
-    },[]);
-
-    useEffect(() =>{
-        console.log(email);
-        // Este useEffect vai ser executado toda vez que o email e password forem alterados
-        /// por isso eles estão nas dependências abaixo
-    },[email]);
-
-    useEffect(() =>{
-        console.log(password);
-    },[password]);
-*/
-    // const handleEntrar = () => {
-    //     console.log(email);
-    //     console.log(password);
-    // }
-
     return (
         <div>
             <form>
                 <p>Quantidade de caracteres no email {emailLength}</p>
-                <label>
-                    <span>Email</span>
-                    <input 
-                    value={email} 
-                    onChange={e=>setEmail(e.target.value)}
-                    // input de senha foi focada após o enter
-                    onKeyDown = {e=>e.key==='Enter'? inputPasswordRef.current?.focus(): undefined}
-                    />
-                </label>
+                
+                <InputLogin 
+                label="Email"
+                value={email}
+                onChange={newValue=>setEmail(newValue)}
+                onPressEnter={()=> inputPasswordRef.current?.focus()}
+                />
 
-                <label>
+                <InputLogin 
+                label="Senha"
+                type="password" 
+                value={password} 
+                ref={inputPasswordRef}
+                onChange={newValue =>setPassword(newValue)}
+                />
+
+                {/* <label>
                     <span>Senha</span>
                     <input type="password" 
                     value={password} 
                     ref={inputPasswordRef}
                     onChange={e=>setPassword(e.target.value)}/>
-                </label>
+                </label> */}
                 <button type="button" /* tipo button para enviar o reload da pagina */ onClick={handleEntrar} >Entrar</button >
             </form>
 
